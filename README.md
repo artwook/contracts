@@ -1,2 +1,0 @@
-# contracts
-artwook contracts
