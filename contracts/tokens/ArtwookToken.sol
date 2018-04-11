@@ -3,6 +3,7 @@ pragma solidity ^0.4.17;
 import './StandardToken.sol';
 import '../libs/Ownable.sol';
 
+
 contract ArtwookToken is StandardToken, Ownable {
     // Token configurations
     string public constant name = "Artwook Token";
