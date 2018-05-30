@@ -1,0 +1,338 @@
+{
+  "contractName": "ERC223ReceivingContract",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "tokenFallback",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.13;\n\n /*\n * Contract that is working with ERC223 tokens\n * https://github.com/ethereum/EIPs/issues/223\n */\n\n/// @title ERC223ReceivingContract - Standard contract implementation for compatibility with ERC223 tokens.\ncontract ERC223ReceivingContract {\n\n    /// @dev Function that is called when a user or another contract wants to transfer funds.\n    /// @param _from Transaction initiator, analogue of msg.sender\n    /// @param _value Number of tokens to transfer.\n    /// @param _data Data containig a function signature and/or parameters\n    function tokenFallback(address _from, uint256 _value, bytes _data) public;\n\n\n    /// @dev For ERC20 backward compatibility, same with above tokenFallback but without data.\n    /// The function execution could fail, but do not influence the token transfer.\n    /// @param _from Transaction initiator, analogue of msg.sender\n    /// @param _value Number of tokens to transfer.\n    //  function tokenFallback(address _from, uint256 _value) public;\n}\n",
+  "sourcePath": "/Users/mark/site/www.artwook.com/contracts/contracts/ERC223ReceivingContract.sol",
+  "ast": {
+    "absolutePath": "/Users/mark/site/www.artwook.com/contracts/contracts/ERC223ReceivingContract.sol",
+    "exportedSymbols": {
+      "ERC223ReceivingContract": [
+        1443
+      ]
+    },
+    "id": 1444,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1433,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".13"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ERC223ReceivingContract - Standard contract implementation for compatibility with ERC223 tokens.",
+        "fullyImplemented": false,
+        "id": 1443,
+        "linearizedBaseContracts": [
+          1443
+        ],
+        "name": "ERC223ReceivingContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Function that is called when a user or another contract wants to transfer funds.\n @param _from Transaction initiator, analogue of msg.sender\n @param _value Number of tokens to transfer.\n @param _data Data containig a function signature and/or parameters",
+            "id": 1442,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "tokenFallback",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1440,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1435,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "588:13:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1434,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "588:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1437,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "603:14:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1436,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "603:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1439,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "619:11:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 1438,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "619:5:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "587:44:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1441,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "638:0:5"
+            },
+            "scope": 1443,
+            "src": "565:74:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1444,
+        "src": "237:774:5"
+      }
+    ],
+    "src": "0:1012:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/mark/site/www.artwook.com/contracts/contracts/ERC223ReceivingContract.sol",
+    "exportedSymbols": {
+      "ERC223ReceivingContract": [
+        1443
+      ]
+    },
+    "id": 1444,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1433,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".13"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ERC223ReceivingContract - Standard contract implementation for compatibility with ERC223 tokens.",
+        "fullyImplemented": false,
+        "id": 1443,
+        "linearizedBaseContracts": [
+          1443
+        ],
+        "name": "ERC223ReceivingContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Function that is called when a user or another contract wants to transfer funds.\n @param _from Transaction initiator, analogue of msg.sender\n @param _value Number of tokens to transfer.\n @param _data Data containig a function signature and/or parameters",
+            "id": 1442,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "tokenFallback",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1440,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1435,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "588:13:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1434,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "588:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1437,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "603:14:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1436,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "603:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1439,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1442,
+                  "src": "619:11:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 1438,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "619:5:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "587:44:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1441,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "638:0:5"
+            },
+            "scope": 1443,
+            "src": "565:74:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1444,
+        "src": "237:774:5"
+      }
+    ],
+    "src": "0:1012:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-05-30T06:48:48.515Z"
+}

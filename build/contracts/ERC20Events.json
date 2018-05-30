@@ -1,5 +1,5 @@
 {
-  "contractName": "ERC20",
+  "contractName": "ERC20Events",
   "abi": [
     {
       "anonymous": false,
@@ -44,141 +44,12 @@
       ],
       "name": "Transfer",
       "type": "event"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "totalSupply",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "guy",
-          "type": "address"
-        }
-      ],
-      "name": "balanceOf",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "src",
-          "type": "address"
-        },
-        {
-          "name": "guy",
-          "type": "address"
-        }
-      ],
-      "name": "allowance",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "guy",
-          "type": "address"
-        },
-        {
-          "name": "wad",
-          "type": "uint256"
-        }
-      ],
-      "name": "approve",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "dst",
-          "type": "address"
-        },
-        {
-          "name": "wad",
-          "type": "uint256"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "src",
-          "type": "address"
-        },
-        {
-          "name": "dst",
-          "type": "address"
-        },
-        {
-          "name": "wad",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferFrom",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
     }
   ],
-  "bytecode": "0x",
-  "deployedBytecode": "0x",
-  "sourceMap": "",
-  "deployedSourceMap": "",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a723058206da7334bd0abbab42275c13f251e66b5eefe11eb7877023f0672a4856843b85e0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a723058206da7334bd0abbab42275c13f251e66b5eefe11eb7877023f0672a4856843b85e0029",
+  "sourceMap": "318:168:18:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;318:168:18;;;;;;;",
+  "deployedSourceMap": "318:168:18:-;;;;;",
   "source": "/// erc20.sol -- API for the ERC20 token standard\n\n// See <https://github.com/ethereum/EIPs/issues/20>.\n\n// This file likely does not meet the threshold of originality\n// required for copyright to apply.  As a result, this is free and\n// unencumbered software belonging to the public domain.\n\npragma solidity ^0.4.8;\n\ncontract ERC20Events {\n    event Approval(address indexed src, address indexed guy, uint wad);\n    event Transfer(address indexed src, address indexed dst, uint wad);\n}\n\ncontract ERC20 is ERC20Events {\n    function totalSupply() public view returns (uint);\n    function balanceOf(address guy) public view returns (uint);\n    function allowance(address src, address guy) public view returns (uint);\n\n    function approve(address guy, uint wad) public returns (bool);\n    function transfer(address dst, uint wad) public returns (bool);\n    function transferFrom(\n        address src, address dst, uint wad\n    ) public returns (bool);\n}\n",
   "sourcePath": "/Users/mark/site/www.artwook.com/contracts/libs/erc20/erc20.sol",
   "ast": {
@@ -1939,5 +1810,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-05-30T06:48:48.558Z"
+  "updatedAt": "2018-05-30T06:48:48.523Z"
 }

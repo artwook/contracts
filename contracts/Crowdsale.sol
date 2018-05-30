@@ -121,7 +121,7 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
   event NextStep(uint8 step);
   event CrowdsaleClose();
 
-  function Crowdsale(address akctoken) public {
+  function Crowdsale(AKC akctoken) public {
       require(token==address(0));
       /* token = new AKC(); */
       token = akctoken;
