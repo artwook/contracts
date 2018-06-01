@@ -184,9 +184,16 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
       // crowdsale only sale 50% of totalSupply
       totalTokensForSale = 100000000 * 10 ** 18;
       uint num1 = 1 ether;
-      steps.push(Step(num1.div(5000000*100).mul(90), 0.01 ether, 1524105000, 0, 0));
-      steps.push(Step(num1.div(5000000*100).mul(95), 0.01 ether, 1524105120, 0, 0));
-      steps.push(Step(num1.div(5000000*100).mul(100), 0.01 ether, 1524105300, 0, 0));
+      /**
+      * Crowdsale is conducted in three phases. Token exchange rate is 1Ether:3000AKC
+      * The crowdsale starts on June 20, 2018.(Wed Jun 20 2018 00:00:00 GMT+0800)
+      * 2018/06/20 - 2018/06/27   10% off on AKC token exchange rate.
+      * 2018/06/27 - 2018/07/04   5% off on AKC token exchange rate.
+      * 2018/07/04 - 2018/07/11   Original exchange rate.
+      */
+      steps.push(Step(num1.div(3000).mul(90), 0.01 ether, 1529424000, 0, 0));
+      steps.push(Step(num1.div(3000).mul(95), 0.01 ether, 1530028800, 0, 0));
+      steps.push(Step(num1.div(3000).mul(100), 0.01 ether, 1530633600, 0, 0));
   }
 
   /**
