@@ -146,7 +146,7 @@ contract Withdrawable is Ownable {
  * @title ArtwookCoinCrowdsale
  * @dev AKC token sale contract.
  */
-contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
+contract AKCCrowdsale is Pausable, Withdrawable {
   using SafeMath for uint;
 
   struct Step {
@@ -158,7 +158,7 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
 
   }
   AKC public token;
-  address public beneficiary = msg.sender;
+  address public beneficiary;
 
   Step[] public steps;
   uint8 public currentStep = 0;
@@ -166,8 +166,8 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
   uint public totalCollectedWei = 0;
   bool public crowdsaleClosed = false;
   uint public totalTokensForSale = 0;
+  uint public testnum;
 
-  mapping(address => uint256) public canSell;
 
   event Purchase(address indexed holder, uint256 tokenAmount, uint256 etherAmount);
   event NextStep(uint8 step);
@@ -177,23 +177,24 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
   * @dev Initialize the crowdsale conditions.
   * @param akctoken AKC token contract adress.
   */
-  function Crowdsale(AKC akctoken) public {
+  function AKCCrowdsale(AKC akctoken, uint rate, uint phase1, uint phase2, uint phase3,address multiSigWallet) public {
       require(token==address(0));
       /* token = new AKC(); */
       token = akctoken;
-      // crowdsale only sale 50% of totalSupply
-      totalTokensForSale = 100000000 * 10 ** 18;
-      uint num1 = 1 ether;
+      beneficiary = multiSigWallet;
+      // crowdsale only sale 20% of totalSupply
+      totalTokensForSale = 40000000 ether;
+      uint oneEther = 1 ether;
       /**
       * Crowdsale is conducted in three phases. Token exchange rate is 1Ether:3000AKC
       * The crowdsale starts on June 20, 2018.(Wed Jun 20 2018 00:00:00 GMT+0800)
-      * 2018/06/20 - 2018/06/27   10% off on AKC token exchange rate.
-      * 2018/06/27 - 2018/07/04   5% off on AKC token exchange rate.
-      * 2018/07/04 - 2018/07/11   Original exchange rate.
+      * 2018/06/20 - 2018/06/27   10% off on AKC token exchange rate. 1529424000
+      * 2018/06/27 - 2018/07/04   5% off on AKC token exchange rate.  1529424000
+      * 2018/07/04 - 2018/07/11   Original exchange rate. 1530633600
       */
-      steps.push(Step(num1.div(3000).mul(90), 0.01 ether, 1529424000, 0, 0));
-      steps.push(Step(num1.div(3000).mul(95), 0.01 ether, 1530028800, 0, 0));
-      steps.push(Step(num1.div(3000).mul(100), 0.01 ether, 1530633600, 0, 0));
+      steps.push(Step(oneEther.div(rate).mul(90).div(100), 0.01 ether, phase1, 0, 0));
+      steps.push(Step(oneEther.div(rate).mul(95).div(100), 0.01 ether, phase2, 0, 0));
+      steps.push(Step(oneEther.div(rate), 0.01 ether, phase3, 0, 0));
   }
 
   /**
@@ -219,19 +220,20 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
         currentStep = 2;
         emit NextStep(currentStep);
       }
-      Step memory step = steps[currentStep];
+      /* Step memory step = steps[currentStep]; */
 
-      require(msg.value >= step.minInvestEth);
+      require(msg.value >= steps[currentStep].minInvestEth);
       require(totalTokensSold < totalTokensForSale);
 
       uint sum = msg.value;
-      uint amount = sum.mul(1 ether).div(step.priceTokenWei);
+      /* Because of AKC token's precision is 18 decimals，the amount is AKC token num multiply by 10**18， */
+      uint amount = sum.mul(1 ether).div(steps[currentStep].priceTokenWei);
       uint retSum = 0;
 
       /* Calculate excess Ether */
       if(totalTokensSold.add(amount) > totalTokensForSale) {
           uint retAmount = totalTokensSold.add(amount).sub(totalTokensForSale);
-          retSum = retAmount.mul(step.priceTokenWei).div(1 ether);
+          retSum = retAmount.mul(steps[currentStep].priceTokenWei).div(1 ether);
           amount = amount.sub(retAmount);
           sum = sum.sub(retSum);
       }
@@ -239,18 +241,19 @@ contract ArtwookCoinCrowdsale is Pausable, Withdrawable {
       /* Record purchase info */
       totalTokensSold = totalTokensSold.add(amount);
       totalCollectedWei = totalCollectedWei.add(sum);
-      steps[currentStep].tokensSold = step.tokensSold.add(amount);
-      steps[currentStep].collectedWei = step.collectedWei.add(sum);
-      canSell[sender] = canSell[sender].add(amount);
+      steps[currentStep].tokensSold = steps[currentStep].tokensSold.add(amount);
+      steps[currentStep].collectedWei = steps[currentStep].collectedWei.add(sum);
 
       /* Mint and Send AKC */
       token.mint(sender, amount);
+      /* token.transfer(sender, amount); */
 
       /* Return the excess Ether */
       if(retSum > 0) {
           sender.transfer(retSum);
       }
 
+      beneficiary.transfer(address(this).balance);
       emit Purchase(sender, amount, sum);
   }
 
