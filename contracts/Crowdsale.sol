@@ -177,7 +177,7 @@ contract AKCCrowdsale is Pausable, Withdrawable {
   * @dev Initialize the crowdsale conditions.
   * @param akctoken AKC token contract adress.
   */
-  function AKCCrowdsale(AKC akctoken, uint rate, uint phase1, uint phase2, uint phase3,address multiSigWallet) public {
+  function AKCCrowdsale(AKC akctoken, uint rate, uint phase1, uint phase2, uint phase3, uint phase4, address multiSigWallet) public {
       require(token==address(0));
       /* token = new AKC(); */
       token = akctoken;
@@ -187,14 +187,16 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       uint oneEther = 1 ether;
       /**
       * Crowdsale is conducted in three phases. Token exchange rate is 1Ether:3000AKC
-      * The crowdsale starts on June 20, 2018.(Wed Jun 20 2018 00:00:00 GMT+0800)
-      * 2018/06/20 - 2018/06/27   10% off on AKC token exchange rate. 1529424000
-      * 2018/06/27 - 2018/07/04   5% off on AKC token exchange rate.  1529424000
-      * 2018/07/04 - 2018/07/11   Original exchange rate. 1530633600
+      * The crowdsale starts on August 20, 2018.
+      * 2018/07/20 - 2018/07/26   15% off on AKC token exchange rate.
+      * 2018/07/27 - 2018/08/02   10% off on AKC token exchange rate.
+      * 2018/08/03 - 2018/07/09   5% off on AKC token exchange rate.
+      * 2018/07/10 - 2018/07/16   Original exchange rate.
       */
-      steps.push(Step(oneEther.div(rate).mul(90).div(100), 0.01 ether, phase1, 0, 0));
-      steps.push(Step(oneEther.div(rate).mul(95).div(100), 0.01 ether, phase2, 0, 0));
-      steps.push(Step(oneEther.div(rate), 0.01 ether, phase3, 0, 0));
+      steps.push(Step(oneEther.div(rate).mul(85).div(100), 0.01 ether, phase1, 0, 0));
+      steps.push(Step(oneEther.div(rate).mul(90).div(100), 0.01 ether, phase2, 0, 0));
+      steps.push(Step(oneEther.div(rate).mul(95).div(100), 0.01 ether, phase3, 0, 0));
+      steps.push(Step(oneEther.div(rate), 0.01 ether, phase4, 0, 0));
   }
 
   /**
@@ -220,20 +222,23 @@ contract AKCCrowdsale is Pausable, Withdrawable {
         currentStep = 2;
         emit NextStep(currentStep);
       }
+      if (now > steps[3].timestamp && currentStep < 3){
+        currentStep = 3;
+        emit NextStep(currentStep);
+      }
       /* Step memory step = steps[currentStep]; */
 
       require(msg.value >= steps[currentStep].minInvestEth);
       require(totalTokensSold < totalTokensForSale);
 
       uint sum = msg.value;
-      /* Because of AKC token's precision is 18 decimals，the amount is AKC token num multiply by 10**18， */
-      uint amount = sum.mul(1 ether).div(steps[currentStep].priceTokenWei);
+      uint amount = sum.div(steps[currentStep].priceTokenWei);
       uint retSum = 0;
 
       /* Calculate excess Ether */
       if(totalTokensSold.add(amount) > totalTokensForSale) {
           uint retAmount = totalTokensSold.add(amount).sub(totalTokensForSale);
-          retSum = retAmount.mul(steps[currentStep].priceTokenWei).div(1 ether);
+          retSum = retAmount.mul(steps[currentStep].priceTokenWei);
           amount = amount.sub(retAmount);
           sum = sum.sub(retSum);
       }
