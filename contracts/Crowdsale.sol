@@ -166,8 +166,6 @@ contract AKCCrowdsale is Pausable, Withdrawable {
   uint public totalCollectedWei = 0;
   bool public crowdsaleClosed = false;
   uint public totalTokensForSale = 0;
-  uint public testnum;
-
 
   event Purchase(address indexed holder, uint256 tokenAmount, uint256 etherAmount);
   event NextStep(uint8 step);
@@ -177,13 +175,13 @@ contract AKCCrowdsale is Pausable, Withdrawable {
   * @dev Initialize the crowdsale conditions.
   * @param akctoken AKC token contract adress.
   */
-  function AKCCrowdsale(AKC akctoken, uint rate, uint phase1, uint phase2, uint phase3, uint phase4, address multiSigWallet) public {
+  function AKCCrowdsale(AKC akctoken, uint phase1, uint phase2, uint phase3, uint phase4, address multiSigWallet) public {
       require(token==address(0));
       /* token = new AKC(); */
       token = akctoken;
       beneficiary = multiSigWallet;
-      // crowdsale only sale 20% of totalSupply
-      totalTokensForSale = 40000000 ether;
+      // crowdsale only sale 4.5% of totalSupply
+      totalTokensForSale = 9000000 ether;
       uint oneEther = 1 ether;
       /**
       * Crowdsale is conducted in three phases. Token exchange rate is 1Ether:3000AKC
@@ -193,10 +191,10 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       * 2018/08/03 - 2018/07/09   5% off on AKC token exchange rate.
       * 2018/07/10 - 2018/07/16   Original exchange rate.
       */
-      steps.push(Step(oneEther.div(rate).mul(85).div(100), 0.01 ether, phase1, 0, 0));
-      steps.push(Step(oneEther.div(rate).mul(90).div(100), 0.01 ether, phase2, 0, 0));
-      steps.push(Step(oneEther.div(rate).mul(95).div(100), 0.01 ether, phase3, 0, 0));
-      steps.push(Step(oneEther.div(rate), 0.01 ether, phase4, 0, 0));
+      steps.push(Step(oneEther.div(3450), 0.01 ether, phase1, 0, 0));
+      steps.push(Step(oneEther.div(3300), 0.01 ether, phase2, 0, 0));
+      steps.push(Step(oneEther.div(3150), 0.01 ether, phase3, 0, 0));
+      steps.push(Step(oneEther.div(3000), 0.01 ether, phase4, 0, 0));
   }
 
   /**
@@ -232,13 +230,13 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       require(totalTokensSold < totalTokensForSale);
 
       uint sum = msg.value;
-      uint amount = sum.div(steps[currentStep].priceTokenWei);
+      uint amount = sum.div(steps[currentStep].priceTokenWei).mul(1 ether);
       uint retSum = 0;
 
       /* Calculate excess Ether */
       if(totalTokensSold.add(amount) > totalTokensForSale) {
           uint retAmount = totalTokensSold.add(amount).sub(totalTokensForSale);
-          retSum = retAmount.mul(steps[currentStep].priceTokenWei);
+          retSum = retAmount.mul(steps[currentStep].priceTokenWei).div(1 ether);
           amount = amount.sub(retAmount);
           sum = sum.sub(retSum);
       }
@@ -250,8 +248,8 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       steps[currentStep].collectedWei = steps[currentStep].collectedWei.add(sum);
 
       /* Mint and Send AKC */
-      token.mint(sender, amount);
-      /* token.transfer(sender, amount); */
+      /* token.mint(sender, amount); */
+      token.transfer(sender, amount);
 
       /* Return the excess Ether */
       if(retSum > 0) {
@@ -269,8 +267,9 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       require(!crowdsaleClosed);
       /* Transfer the Ether from the contract to the beneficiary's adress.*/
       beneficiary.transfer(address(this).balance);
+      token.transfer(beneficiary, token.balanceOf(address(this)));
       /* Set AKC contract owner to beneficiary.*/
-      token.setOwner(beneficiary);
+      /* token.setOwner(beneficiary); */
       crowdsaleClosed = true;
       emit CrowdsaleClose();
   }
