@@ -61,7 +61,7 @@ contract Ownable {
 
   /**
    * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
+   * @param newOwner The address that transfer ownership to.
    */
   function transferOwnership(address newOwner) public onlyOwner {
     require(newOwner != address(0));
@@ -73,7 +73,7 @@ contract Ownable {
 
 /**
  * @title Pausable
- * @dev This let a contract have a paused status to pause and restart what contract want.
+ * @dev Assign a paused status to contract to pause and continue later.
  *
  */
 contract Pausable is Ownable {
@@ -117,7 +117,7 @@ contract Pausable is Ownable {
 contract Withdrawable is Ownable {
     /**
     * @dev withdraw Ether from contract
-    * @param _to The address to transfer to.
+    * @param _to The address transfer Ether to.
     * @param _value The amount to be transferred.
     */
     function withdrawEther(address _to, uint _value) onlyOwner public returns(bool) {
@@ -131,8 +131,8 @@ contract Withdrawable is Ownable {
 
     /**
     * @dev withdraw ERC20 token from contract
-    * @param _token ERC20 token contract adress.
-    * @param _to The address to transfer to.
+    * @param _token ERC20 token contract address.
+    * @param _to The address transfer Token to.
     * @param _value The amount to be transferred.
     */
     function withdrawTokens(ERC20 _token, address _to, uint _value) onlyOwner public returns(bool) {
@@ -173,7 +173,7 @@ contract AKCCrowdsale is Pausable, Withdrawable {
 
   /**
   * @dev Initialize the crowdsale conditions.
-  * @param akctoken AKC token contract adress.
+  * @param akctoken AKC token contract address.
   */
   function AKCCrowdsale(AKC akctoken, uint phase1, uint phase2, uint phase3, uint phase4, address multiSigWallet) public {
       require(token==address(0));
@@ -211,7 +211,7 @@ contract AKCCrowdsale is Pausable, Withdrawable {
   function purchase(address sender) whenNotPaused payable public {
       require(!crowdsaleClosed);
       require(now>steps[0].timestamp);
-      /*Update the step based on the current time.*/
+      /* Update the step based on the current time. */
       if (now > steps[1].timestamp && currentStep < 1){
         currentStep = 1;
         emit NextStep(currentStep);
@@ -265,11 +265,10 @@ contract AKCCrowdsale is Pausable, Withdrawable {
   */
   function closeCrowdsale() onlyOwner public {
       require(!crowdsaleClosed);
-      /* Transfer the Ether from the contract to the beneficiary's adress.*/
+      /* Transfer the Ether from the contract to the beneficiary's address.*/
       beneficiary.transfer(address(this).balance);
+      /* Transfer the AKC from the contract to the beneficiary's address.*/
       token.transfer(beneficiary, token.balanceOf(address(this)));
-      /* Set AKC contract owner to beneficiary.*/
-      /* token.setOwner(beneficiary); */
       crowdsaleClosed = true;
       emit CrowdsaleClose();
   }
