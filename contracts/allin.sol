@@ -795,16 +795,16 @@ contract AKCCrowdsale is Pausable, Withdrawable {
       uint oneEther = 1 ether;
       /**
       * Crowdsale is conducted in three phases. Token exchange rate is 1Ether:3000AKC
-      * The crowdsale starts on August 20, 2018.
-      * 2018/07/20 - 2018/07/26   15% off on AKC token exchange rate.
-      * 2018/07/27 - 2018/08/02   10% off on AKC token exchange rate.
-      * 2018/08/03 - 2018/07/09   5% off on AKC token exchange rate.
-      * 2018/07/10 - 2018/07/16   Original exchange rate.
+      * The crowdsale starts on July 20, 2018.
+      * 2018/07/20 - 2018/07/29   15% off on AKC token exchange rate.
+      * 2018/07/30 - 2018/08/08   10% off on AKC token exchange rate.
+      * 2018/08/09 - 2018/08/18   5% off on AKC token exchange rate.
+      * 2018/08/19 - 2018/08/30   Original exchange rate.
       */
-      steps.push(Step(oneEther.div(3450), 0.01 ether, phase1, 0, 0));
-      steps.push(Step(oneEther.div(3300), 0.01 ether, phase2, 0, 0));
-      steps.push(Step(oneEther.div(3150), 0.01 ether, phase3, 0, 0));
-      steps.push(Step(oneEther.div(3000), 0.01 ether, phase4, 0, 0));
+      steps.push(Step(oneEther.div(3450), 1 ether, phase1, 0, 0));
+      steps.push(Step(oneEther.div(3300), 1 ether, phase2, 0, 0));
+      steps.push(Step(oneEther.div(3150), 1 ether, phase3, 0, 0));
+      steps.push(Step(oneEther.div(3000), 1 ether, phase4, 0, 0));
   }
 
   /**
