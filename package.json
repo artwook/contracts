@@ -7,15 +7,16 @@
     "test": "test"
   },
   "scripts": {
-    "dev":"npx truffle migrate",
-    "kovan":"npx truffle migrate --network kovan",
-    "flat": "rm artwookCoinContract.sol && ../SolidityFlatteryNpm/flat -input ./contracts/AKC.sol -output artwookCoinContract",
+    "dev": "npx truffle migrate",
+    "kovan": "npx truffle migrate --network kovan",
+    "flat": "rm artwookCoinContract.sol && npx solidity-flat -input ./contracts/AKC.sol -output artwookCoinContract",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "solc": "0.4.25",
+    "solidity-flat": "^1.0.1",
     "truffle": "v4",
     "truffle-hdwallet-provider": "^1.0.5"
   }
