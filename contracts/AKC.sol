@@ -1,13 +1,15 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.25;
 
 import "../libs/ds-token/token.sol";
-import './ERC223ReceivingContract.sol';
-import './TokenController.sol';
-import './Controlled.sol';
-import './ApproveAndCallFallBack.sol';
-import './ERC223.sol';
+import "./ERC223ReceivingContract.sol";
+import "./TokenController.sol";
+import "./Controlled.sol";
+import "./ApproveAndCallFallBack.sol";
+import "./ERC223.sol";
 
 contract AKC is DSToken("AKC"), ERC223, Controlled {
+
+    uint256 public cap = 2e26;
 
     constructor() {
         setName("ARTWOOK Coin");
@@ -110,6 +112,7 @@ contract AKC is DSToken("AKC"), ERC223, Controlled {
         require(super.transferFrom(_from, _to, _amount));
 
         if (isContract(_to)) {
+            /* 修复ERC233 与 ds-auth 合用时产生的安全漏洞 */
             if(_to == address(this)) revert();
             ERC223ReceivingContract receiver = ERC223ReceivingContract(_to);
             receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), _from, _amount, _data);
@@ -152,6 +155,8 @@ contract AKC is DSToken("AKC"), ERC223, Controlled {
     }
 
     function mint(address _guy, uint _wad) auth stoppable {
+        require(add(_supply, _wad) <= cap);
+
         super.mint(_guy, _wad);
 
         Transfer(0, _guy, _wad);

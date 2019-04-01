@@ -1,0 +1,22 @@
+{
+  "name": "artwook-coin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev":"npx truffle migrate",
+    "kovan":"npx truffle migrate --network kovan",
+    "flat": "rm artwookCoinContract.sol && ../SolidityFlatteryNpm/flat -input ./contracts/AKC.sol -output artwookCoinContract",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "solc": "0.4.25",
+    "truffle": "v4",
+    "truffle-hdwallet-provider": "^1.0.5"
+  }
+}
