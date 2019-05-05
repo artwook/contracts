@@ -33,9 +33,10 @@ contract DSToken is DSTokenBase(0), DSStop {
     event Mint(address indexed guy, uint wad);
     event Burn(address indexed guy, uint wad);
 
-    function approve(address guy) public stoppable returns (bool) {
+    /* 这个方法会将所有余额授权给相应的账号 此处删除比较危险的功能 */
+    /* function approve(address guy) public stoppable returns (bool) {
         return super.approve(guy, uint(-1));
-    }
+    } */
 
     function approve(address guy, uint wad) public stoppable returns (bool) {
         return super.approve(guy, wad);

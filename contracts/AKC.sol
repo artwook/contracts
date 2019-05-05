@@ -159,12 +159,12 @@ contract AKC is DSToken("AKC"), ERC223, Controlled {
 
         super.mint(_guy, _wad);
 
-        Transfer(0, _guy, _wad);
+        emit Transfer(0, _guy, _wad);
     }
     function burn(address _guy, uint _wad) auth stoppable {
         super.burn(_guy, _wad);
 
-        Transfer(_guy, 0, _wad);
+        emit Transfer(_guy, 0, _wad);
     }
 
     /// @notice `msg.sender` approves `_spender` to send `_amount` tokens on
@@ -228,7 +228,8 @@ contract AKC is DSToken("AKC"), ERC223, Controlled {
 
         ERC20 token = ERC20(_token);
         uint balance = token.balanceOf(this);
-        token.transfer(controller, balance);
+        /* 避免外部调用返回 false 代码仍然继续执行  此处加上require判断 */
+        require(token.transfer(controller, balance));
         emit ClaimedTokens(_token, controller, balance);
     }
 
