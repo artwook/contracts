@@ -26,3 +26,6 @@ npm run dev
 npm run flat
 ```
 All code will be in one file ```./artwookCoinContract.sol```.
+
+## smart contract security audit report
+[Audit Report](./AKC_smart_contract_security_audit_report.pdf)
